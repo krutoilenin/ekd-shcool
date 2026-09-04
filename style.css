@@ -1,0 +1,902 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+:root {
+    --black: #0a0a0a;
+    --dark-gray: #1a1a1a;
+    --gray: #2a2a2a;
+    --light-gray: #3a3a3a;
+    --orange-primary: #FF6B00;
+    --orange-light: #FF8533;
+    --orange-dark: #CC5500;
+    --orange-glow: #FF6B0033;
+    --white: #ffffff;
+    --text-light: #e0e0e0;
+    --text-muted: #999999;
+}
+
+body {
+    background: var(--black);
+    color: var(--white);
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* ===== ВЫДВИЖНАЯ ПАНЕЛЬ ===== */
+.slide-panel {
+    position: fixed;
+    left: -320px;
+    top: 0;
+    width: 320px;
+    height: 100vh;
+    background: var(--dark-gray);
+    border-right: 1px solid var(--gray);
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+    display: flex;
+}
+
+.slide-panel:hover {
+    left: 0;
+}
+
+.panel-trigger {
+    position: absolute;
+    right: -48px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--orange-primary);
+    padding: 16px 12px;
+    border-radius: 0 12px 12px 0;
+    cursor: pointer;
+    writing-mode: vertical-rl;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    box-shadow: 4px 0 20px rgba(255, 107, 0, 0.3);
+    color: white;
+}
+
+.panel-trigger i {
+    writing-mode: horizontal-tb;
+    font-size: 18px;
+}
+
+.panel-content {
+    width: 100%;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.panel-logo {
+    padding: 0 20px 30px;
+    border-bottom: 1px solid var(--gray);
+    display: flex;
+    justify-content: center;
+}
+
+.panel-logo img {
+    height: 60px;
+    width: auto;
+}
+
+.panel-nav {
+    flex: 1;
+    padding: 20px 0;
+}
+
+.panel-nav a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 20px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.2s;
+    border-left: 3px solid transparent;
+    cursor: pointer;
+}
+
+.panel-nav a:hover {
+    color: var(--white);
+    background: var(--gray);
+}
+
+.panel-nav a.active {
+    color: var(--orange-primary);
+    background: var(--gray);
+    border-left-color: var(--orange-primary);
+}
+
+.panel-nav a i {
+    width: 20px;
+}
+
+.panel-footer {
+    padding: 20px;
+    border-top: 1px solid var(--gray);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    background: var(--gray);
+    border-radius: 12px;
+    margin-bottom: 12px;
+}
+
+.user-info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--orange-primary);
+}
+
+.user-info span {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--white);
+}
+
+.admin-access-btn {
+    width: 100%;
+    padding: 12px;
+    background: var(--orange-primary);
+    border: none;
+    border-radius: 8px;
+    color: var(--white);
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.admin-access-btn:hover {
+    background: var(--orange-dark);
+    transform: scale(1.02);
+}
+
+.logout-btn {
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    border: 1px solid var(--gray);
+    border-radius: 8px;
+    color: var(--text-muted);
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.logout-btn:hover {
+    background: var(--gray);
+    color: var(--white);
+}
+
+/* ===== ОСНОВНОЙ КОНТЕНТ ===== */
+.main-content {
+    margin-left: 0;
+    flex: 1;
+    min-height: 100vh;
+    background: var(--black);
+}
+
+/* ===== ХЕДЕР ===== */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 40px;
+    background: var(--dark-gray);
+    border-bottom: 1px solid var(--gray);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.mobile-menu-btn {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--white);
+}
+
+.header-logo img {
+    height: 40px;
+    width: auto;
+}
+
+.top-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    margin: 0 20px;
+}
+
+.nav-exam-type {
+    display: flex;
+    gap: 6px;
+}
+
+.exam-btn {
+    padding: 4px 16px;
+    background: var(--gray);
+    border: none;
+    border-radius: 20px;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.exam-btn:hover,
+.exam-btn.active {
+    background: var(--orange-primary);
+    color: var(--white);
+}
+
+.nav-subjects {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.subject-btn {
+    padding: 6px 16px;
+    background: transparent;
+    border: 1px solid var(--gray);
+    border-radius: 20px;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.subject-btn:hover {
+    background: var(--gray);
+    color: var(--white);
+}
+
+.subject-btn.active {
+    background: var(--orange-primary);
+    border-color: var(--orange-primary);
+    color: var(--white);
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.notification-bell {
+    color: var(--text-muted);
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.notification-bell:hover {
+    color: var(--orange-primary);
+}
+
+.auth-buttons .login-top-btn {
+    padding: 8px 24px;
+    background: var(--orange-primary);
+    border: none;
+    border-radius: 30px;
+    color: var(--white);
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.auth-buttons .login-top-btn:hover {
+    background: var(--orange-dark);
+    transform: scale(1.05);
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--orange-primary);
+}
+
+.user-profile span {
+    color: var(--white);
+    font-weight: 600;
+}
+
+/* ===== БАННЕР ===== */
+.hero-banner {
+    height: 400px;
+    background: linear-gradient(135deg, var(--dark-gray) 0%, var(--gray) 100%);
+    position: relative;
+    margin: 20px 40px;
+    border-radius: 20px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+}
+
+.hero-overlay {
+    background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 40px 60px;
+}
+
+.hero-content h1 {
+    font-size: 52px;
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--white);
+}
+
+.hero-content .highlight {
+    color: var(--orange-primary);
+    text-shadow: 0 0 30px var(--orange-glow);
+}
+
+.hero-content p {
+    font-size: 20px;
+    color: var(--text-light);
+    margin: 16px 0 30px;
+}
+
+.cta-btn {
+    padding: 16px 48px;
+    background: linear-gradient(135deg, var(--orange-primary), var(--orange-dark));
+    border: none;
+    border-radius: 50px;
+    color: var(--white);
+    font-weight: 800;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 4px 20px var(--orange-glow);
+}
+
+.cta-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px var(--orange-glow);
+}
+
+/* ===== СЕКЦИИ ===== */
+section {
+    padding: 40px 40px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.section-header h2 {
+    font-size: 28px;
+    font-weight: 800;
+    background: linear-gradient(90deg, var(--orange-primary), var(--orange-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.teachers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 24px;
+}
+
+/* ===== ПОСТЫ РАЗНЫХ РАЗМЕРОВ ===== */
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.news-card {
+    background: var(--dark-gray);
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid var(--gray);
+    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.news-card:hover {
+    border-color: var(--orange-primary);
+    transform: translateY(-3px);
+}
+
+.news-card.small {
+    grid-column: span 1;
+}
+
+.news-card.medium {
+    grid-column: span 2;
+}
+
+.news-card.large {
+    grid-column: span 3;
+}
+
+.news-card.full {
+    grid-column: span 4;
+}
+
+.news-card .news-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 12px;
+}
+
+.news-card.small .news-image {
+    height: 120px;
+}
+
+.news-card.large .news-image {
+    height: 250px;
+}
+
+.news-card.full .news-image {
+    height: 300px;
+}
+
+.news-date {
+    color: var(--text-muted);
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+.news-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 8px;
+}
+
+.news-excerpt {
+    color: var(--text-light);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.news-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 4px 12px;
+    background: var(--orange-primary);
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    color: white;
+}
+
+/* ===== КУРСЫ ===== */
+.course-card {
+    background: var(--dark-gray);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: 0.3s;
+    border: 1px solid var(--gray);
+    cursor: pointer;
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--orange-primary);
+    box-shadow: 0 8px 30px var(--orange-glow);
+}
+.courses-grid img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;  /* Вместо cover (который обрезает) */
+}
+
+.course-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 4px 12px;
+    background: var(--orange-primary);
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    color: white;
+}
+
+.course-info {
+    padding: 20px;
+}
+
+.course-info h3 {
+    font-size: 20px;
+    color: var(--white);
+    margin-bottom: 8px;
+}
+
+.course-info .teacher {
+    color: var(--text-muted);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.course-info .price {
+    display: block;
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--orange-primary);
+    margin-top: 12px;
+}
+
+.course-info .old-price {
+    color: var(--text-muted);
+    font-size: 16px;
+    text-decoration: line-through;
+    margin-left: 10px;
+    font-weight: 400;
+}
+
+/* ===== ПРЕПОДАВАТЕЛИ ===== */
+.teacher-card {
+    background: var(--dark-gray);
+    border-radius: 16px;
+    text-align: center;
+    padding: 24px;
+    border: 1px solid var(--gray);
+    transition: 0.3s;
+}
+
+.teacher-card:hover {
+    border-color: var(--orange-primary);
+    transform: translateY(-3px);
+}
+
+.teacher-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 12px;
+    border: 3px solid var(--orange-primary);
+}
+
+.teacher-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+}
+
+.teacher-subject {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+/* ===== МОДАЛЬНЫЕ ОКНА ===== */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(8px);
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.modal-content {
+    background: var(--dark-gray);
+    padding: 40px;
+    border-radius: 24px;
+    max-width: 700px;
+    width: 95%;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    border: 1px solid var(--gray);
+}
+
+.schedule-modal-content {
+    max-width: 900px;
+}
+
+.modal-content h2 {
+    color: var(--white);
+}
+
+.modal-content p {
+    color: var(--text-light);
+}
+
+.close-modal {
+    position: absolute;
+    top: 16px;
+    right: 24px;
+    font-size: 32px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.close-modal:hover {
+    color: var(--white);
+    transform: rotate(90deg);
+}
+
+/* ===== РАСПИСАНИЕ ===== */
+.schedule-subject-select {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.schedule-subject-select button {
+    padding: 10px 24px;
+    background: var(--gray);
+    border: none;
+    border-radius: 30px;
+    color: var(--text-muted);
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.schedule-subject-select button:hover,
+.schedule-subject-select button.active {
+    background: var(--orange-primary);
+    color: white;
+}
+
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.schedule-table th,
+.schedule-table td {
+    padding: 12px 16px;
+    border: 1px solid var(--gray);
+    text-align: left;
+    color: var(--text-light);
+}
+
+.schedule-table th {
+    background: var(--orange-primary);
+    color: white;
+    font-weight: 700;
+}
+
+.schedule-table td {
+    background: var(--dark-gray);
+}
+
+.schedule-table tr:hover td {
+    background: var(--gray);
+}
+
+.schedule-edit-btn {
+    padding: 4px 12px;
+    background: var(--orange-primary);
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.schedule-edit-btn:hover {
+    background: var(--orange-dark);
+}
+
+/* ===== ТАРИФЫ ===== */
+.tariff-plan {
+    background: var(--gray);
+    padding: 20px;
+    border-radius: 12px;
+    margin: 12px 0;
+    border-left: 4px solid var(--orange-primary);
+}
+
+.tariff-plan h4 {
+    font-size: 18px;
+    color: var(--white);
+    margin-bottom: 4px;
+}
+
+.tariff-plan .tariff-price {
+    color: var(--orange-primary);
+    font-weight: 800;
+    font-size: 22px;
+}
+
+.empty-state {
+    color: var(--text-muted);
+    text-align: center;
+    padding: 40px 0;
+    font-size: 18px;
+}
+
+/* ===== АДАПТИВ ===== */
+@media (max-width: 1200px) {
+    .news-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .news-card.large {
+        grid-column: span 2;
+    }
+    .news-card.full {
+        grid-column: span 2;
+    }
+}
+
+@media (max-width: 1024px) {
+    .top-nav {
+        order: 3;
+        width: 100%;
+        margin: 8px 0 0;
+    }
+    .nav-subjects {
+        gap: 4px;
+    }
+    .subject-btn {
+        font-size: 11px;
+        padding: 4px 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .slide-panel {
+        left: -100%;
+        width: 85%;
+    }
+    .slide-panel:hover {
+        left: 0;
+    }
+    .panel-trigger {
+        display: none;
+    }
+    .mobile-menu-btn {
+        display: block !important;
+    }
+    .slide-panel.mobile-open {
+        left: 0 !important;
+    }
+    
+    .main-header {
+        padding: 12px 16px;
+    }
+    .header-logo img {
+        height: 32px;
+    }
+    .top-nav {
+        order: 3;
+        width: 100%;
+        margin: 8px 0 0;
+    }
+    .nav-subjects {
+        gap: 4px;
+    }
+    .subject-btn {
+        font-size: 10px;
+        padding: 4px 10px;
+    }
+    .hero-banner {
+        margin: 12px 16px;
+        height: 250px;
+    }
+    .hero-content h1 {
+        font-size: 28px;
+    }
+    .hero-content p {
+        font-size: 16px;
+    }
+    .hero-content .cta-btn {
+        padding: 12px 32px;
+        font-size: 14px;
+    }
+    .hero-overlay {
+        padding: 20px 30px;
+    }
+    section {
+        padding: 24px 16px;
+    }
+    .courses-grid,
+    .teachers-grid {
+        grid-template-columns: 1fr;
+    }
+    .news-grid {
+        grid-template-columns: 1fr;
+    }
+    .news-card.large,
+    .news-card.full {
+        grid-column: span 1;
+    }
+    .auth-buttons .login-top-btn {
+        padding: 6px 16px;
+        font-size: 12px;
+    }
+    .modal-content {
+        padding: 24px;
+        max-width: 98%;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-content h1 {
+        font-size: 22px;
+    }
+    .section-header h2 {
+        font-size: 20px;
+    }
+    .nav-subjects {
+        gap: 2px;
+    }
+    .subject-btn {
+        font-size: 9px;
+        padding: 3px 8px;
+    }
+    .exam-btn {
+        font-size: 10px;
+        padding: 3px 12px;
+    }
+}

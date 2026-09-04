@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход — EKD</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--black);
+            padding: 20px;
+        }
+        .login-container {
+            background: var(--dark-gray);
+            padding: 48px;
+            border-radius: 24px;
+            max-width: 440px;
+            width: 100%;
+            border: 1px solid var(--gray);
+        }
+        .login-container .logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .login-container .logo img {
+            height: 60px;
+            width: auto;
+        }
+        .login-container h2 {
+            text-align: center;
+            font-size: 28px;
+            color: var(--white);
+            margin-bottom: 8px;
+        }
+        .login-container p.sub {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+        .social-login {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .social-btn {
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        .social-btn.google {
+            background: #ffffff;
+            color: #1a1a1a;
+        }
+        .social-btn.google:hover {
+            background: #f0f0f0;
+            transform: scale(1.02);
+        }
+        .social-btn.vk {
+            background: #0077ff;
+            color: white;
+        }
+        .social-btn.vk:hover {
+            background: #0055cc;
+            transform: scale(1.02);
+        }
+        .divider {
+            margin: 24px 0;
+            text-align: center;
+            color: var(--text-muted);
+            position: relative;
+        }
+        .divider::before,
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 35%;
+            height: 1px;
+            background: var(--gray);
+        }
+        .divider::before { left: 0; }
+        .divider::after { right: 0; }
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .login-form input {
+            padding: 14px 18px;
+            border-radius: 12px;
+            border: 1px solid var(--gray);
+            background: var(--gray);
+            color: var(--white);
+            font-size: 16px;
+            transition: 0.2s;
+        }
+        .login-form input:focus {
+            outline: none;
+            border-color: var(--orange-primary);
+        }
+        .login-form input::placeholder {
+            color: var(--text-muted);
+        }
+        .login-form button {
+            padding: 14px;
+            background: var(--orange-primary);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 8px;
+        }
+        .login-form button:hover {
+            background: var(--orange-dark);
+            transform: scale(1.02);
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        .back-link:hover {
+            color: var(--orange-primary);
+        }
+        .error-msg {
+            background: #ff444433;
+            color: #ff4444;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 14px;
+            display: none;
+            margin-bottom: 16px;
+        }
+        .admin-login-hint {
+            margin-top: 16px;
+            padding: 12px;
+            background: var(--gray);
+            border-radius: 8px;
+            border-left: 3px solid var(--orange-primary);
+        }
+        .admin-login-hint p {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .admin-login-hint strong {
+            color: var(--orange-primary);
+        }
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-page">
+        <div class="login-container">
+            <div class="logo">
+                <img src="images/logo.png" alt="EKD" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>'">
+            </div>
+            <h2>Добро пожаловать</h2>
+            <p class="sub">Войдите, чтобы продолжить обучение</p>
+            
+            <div id="loginError" class="error-msg"></div>
+            
+            <div class="social-login">
+                <button class="social-btn google" onclick="loginGoogle()">
+                    <i class="fab fa-google"></i> Войти через Google
+                </button>
+                <button class="social-btn vk" onclick="loginVK()">
+                    <i class="fab fa-vk"></i> Войти через ВКонтакте
+                </button>
+            </div>
+            
+            <div class="divider">или по почте</div>
+            
+            <form class="login-form" onsubmit="loginEmail(event)">
+                <input type="email" id="loginEmail" placeholder="Email" required>
+                <input type="password" id="loginPassword" placeholder="Пароль" required>
+                <button type="submit">Войти</button>
+            </form>
+            
+            <div class="admin-login-hint">
+                <p>🔑 <strong>Администратор:</strong> email: <strong>admin@ekd.ru</strong> | пароль: <strong>admin123</strong></p>
+                <p style="margin-top:4px; font-size:11px;">Только администратор имеет доступ к управлению сайтом</p>
+            </div>
+            
+            <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> На главную</a>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

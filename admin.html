@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EKD — Панель управления</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-panel {
+            padding: 30px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .admin-header h1 {
+            font-size: 32px;
+            color: var(--orange-primary);
+        }
+        .admin-header .back-btn {
+            padding: 10px 24px;
+            background: var(--gray);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+        .admin-header .back-btn:hover {
+            background: var(--light-gray);
+        }
+        .admin-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .admin-tabs button {
+            padding: 10px 24px;
+            background: var(--gray);
+            border: none;
+            border-radius: 8px;
+            color: var(--text-muted);
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .admin-tabs button.active {
+            background: var(--orange-primary);
+            color: var(--white);
+        }
+        .admin-tabs button:hover {
+            background: var(--light-gray);
+            color: var(--white);
+        }
+        .admin-tab-content {
+            display: none;
+        }
+        .admin-tab-content.active {
+            display: block;
+        }
+        .admin-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+        .admin-form {
+            background: var(--dark-gray);
+            padding: 24px;
+            border-radius: 16px;
+            border: 1px solid var(--gray);
+        }
+        .admin-form h3 {
+            color: var(--orange-primary);
+            margin-bottom: 16px;
+        }
+        .admin-form input,
+        .admin-form textarea,
+        .admin-form select {
+            width: 100%;
+            padding: 10px 14px;
+            margin: 6px 0 12px;
+            background: var(--gray);
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            color: var(--white);
+            font-size: 14px;
+        }
+        .admin-form textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+        .admin-form input[type="file"] {
+            padding: 8px;
+            background: transparent;
+        }
+        .admin-form .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .admin-form .form-row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+        }
+        .admin-form button {
+            padding: 10px 24px;
+            background: var(--orange-primary);
+            border: none;
+            border-radius: 8px;
+            color: var(--white);
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+        }
+        .admin-form button:hover {
+            background: var(--orange-dark);
+        }
+        .admin-form button.secondary {
+            background: var(--gray);
+        }
+        .admin-form button.secondary:hover {
+            background: var(--light-gray);
+        }
+        .admin-form .btn-group {
+            display: flex;
+            gap: 8px;
+        }
+        .admin-form .btn-group button {
+            flex: 1;
+        }
+        .items-list {
+            background: var(--dark-gray);
+            padding: 24px;
+            border-radius: 16px;
+            border: 1px solid var(--gray);
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .items-list h3 {
+            color: var(--orange-primary);
+            margin-bottom: 16px;
+        }
+        .item-card {
+            background: var(--gray);
+            padding: 16px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.2s;
+        }
+        .item-card:hover {
+            background: var(--light-gray);
+        }
+        .item-card .item-info {
+            flex: 1;
+        }
+        .item-card .item-info h4 {
+            font-size: 16px;
+            color: var(--white);
+        }
+        .item-card .item-info p {
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+        .item-card .item-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .item-card .item-actions button {
+            padding: 6px 14px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .item-card .item-actions .edit-btn {
+            background: var(--orange-primary);
+            color: white;
+        }
+        .item-card .item-actions .edit-btn:hover {
+            background: var(--orange-dark);
+        }
+        .item-card .item-actions .delete-btn {
+            background: #ff4444;
+            color: white;
+        }
+        .item-card .item-actions .delete-btn:hover {
+            background: #cc0000;
+        }
+        .item-card .item-preview-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 12px;
+        }
+        .empty-state {
+            color: var(--text-muted);
+            text-align: center;
+            padding: 40px 0;
+        }
+        .admin-settings-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+        .settings-card {
+            background: var(--dark-gray);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--gray);
+        }
+        .settings-card h4 {
+            margin-bottom: 12px;
+            color: var(--orange-primary);
+        }
+        .settings-card input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            color: var(--text-muted);
+        }
+        .settings-card button {
+            margin-top: 8px;
+            padding: 8px 20px;
+            background: var(--orange-primary);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .settings-card button:hover {
+            background: var(--orange-dark);
+        }
+        .settings-card .preview-img {
+            max-width: 100%;
+            max-height: 100px;
+            border-radius: 8px;
+            margin-top: 8px;
+        }
+        .schedule-admin-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 8px;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--gray);
+        }
+        .schedule-admin-item input {
+            padding: 6px 10px;
+            background: var(--gray);
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            color: white;
+        }
+        .schedule-admin-item button {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .schedule-admin-item .save-schedule-btn {
+            background: var(--orange-primary);
+            color: white;
+        }
+        .schedule-admin-item .delete-schedule-btn {
+            background: #ff4444;
+            color: white;
+        }
+        @media (max-width: 1024px) {
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+            .admin-settings-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .admin-panel {
+                padding: 16px;
+            }
+            .admin-form .form-row-3 {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media (max-width: 768px) {
+            .admin-settings-grid {
+                grid-template-columns: 1fr;
+            }
+            .admin-form .form-row {
+                grid-template-columns: 1fr;
+            }
+            .admin-form .form-row-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-panel">
+        <div class="admin-header">
+            <h1><i class="fas fa-cog"></i> Панель управления</h1>
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> На главную</a>
+        </div>
+
+        <div class="admin-tabs">
+            <button class="active" data-tab="courses">📚 Курсы</button>
+            <button data-tab="news">📰 Посты</button>
+            <button data-tab="teachers">👨‍🏫 Преподаватели</button>
+            <button data-tab="schedule">📅 Расписание</button>
+            <button data-tab="settings">⚙️ Настройки</button>
+        </div>
+
+        <!-- КУРСЫ -->
+        <div class="admin-tab-content active" id="tab-courses">
+            <div class="admin-grid">
+                <div class="admin-form">
+                    <h3 id="courseFormTitle">➕ Добавить курс</h3>
+                    <input type="hidden" id="editCourseId">
+                    <input type="text" id="courseName" placeholder="Название курса">
+                    <select id="courseType">
+                        <option value="ege">ЕГЭ</option>
+                        <option value="oge">ОГЭ</option>
+                    </select>
+                    <select id="courseSubject">
+                        <option value="history">История</option>
+                        <option value="society">Обществознание</option>
+                        <option value="math">ПрофМат</option>
+                        <option value="physics">Физика</option>
+                        <option value="literature">Литература</option>
+                    </select>
+                    <input type="text" id="courseTeacher" placeholder="Имя преподавателя">
+                    <div class="form-row">
+                        <input type="text" id="coursePrice" placeholder="Цена">
+                        <input type="text" id="courseOldPrice" placeholder="Старая цена">
+                    </div>
+                    <input type="text" id="courseTariffs" placeholder="Тарифы через запятую">
+                    <input type="file" id="courseImage" accept="image/*">
+                    <div class="btn-group">
+                        <button onclick="saveCourse()" id="courseSaveBtn">Сохранить</button>
+                        <button class="secondary" onclick="cancelEditCourse()" id="courseCancelBtn" style="display:none;">Отмена</button>
+                    </div>
+                </div>
+                <div class="items-list">
+                    <h3>📋 Список курсов</h3>
+                    <div id="coursesList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ПОСТЫ -->
+        <div class="admin-tab-content" id="tab-news">
+            <div class="admin-grid">
+                <div class="admin-form">
+                    <h3 id="newsFormTitle">➕ Добавить пост</h3>
+                    <input type="hidden" id="editNewsId">
+                    <input type="text" id="newsTitle" placeholder="Заголовок">
+                    <textarea id="newsContent" placeholder="Текст поста" rows="3"></textarea>
+                    <input type="date" id="newsDate">
+                    <select id="newsSize">
+                        <option value="small">Маленький</option>
+                        <option value="medium" selected>Средний</option>
+                        <option value="large">Большой</option>
+                        <option value="full">На всю ширину</option>
+                    </select>
+                    <input type="text" id="newsBadge" placeholder="Бейдж (Акция, Скидка, Важно)">
+                    <input type="file" id="newsImage" accept="image/*">
+                    <div class="btn-group">
+                        <button onclick="saveNews()" id="newsSaveBtn">Опубликовать</button>
+                        <button class="secondary" onclick="cancelEditNews()" id="newsCancelBtn" style="display:none;">Отмена</button>
+                    </div>
+                </div>
+                <div class="items-list">
+                    <h3>📰 Список постов</h3>
+                    <div id="newsList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ПРЕПОДАВАТЕЛИ -->
+        <div class="admin-tab-content" id="tab-teachers">
+            <div class="admin-grid">
+                <div class="admin-form">
+                    <h3 id="teacherFormTitle">➕ Добавить преподавателя</h3>
+                    <input type="hidden" id="editTeacherId">
+                    <input type="text" id="teacherName" placeholder="Имя преподавателя">
+                    <input type="text" id="teacherSubject" placeholder="Предмет">
+                    <input type="file" id="teacherAvatar" accept="image/*">
+                    <div class="btn-group">
+                        <button onclick="saveTeacher()" id="teacherSaveBtn">Сохранить</button>
+                        <button class="secondary" onclick="cancelEditTeacher()" id="teacherCancelBtn" style="display:none;">Отмена</button>
+                    </div>
+                </div>
+                <div class="items-list">
+                    <h3>👨‍🏫 Список преподавателей</h3>
+                    <div id="teachersList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- РАСПИСАНИЕ -->
+        <div class="admin-tab-content" id="tab-schedule">
+            <div class="admin-grid">
+                <div class="admin-form">
+                    <h3>📅 Управление расписанием</h3>
+                    <select id="scheduleSubjectSelect">
+                        <option value="history">История</option>
+                        <option value="society">Обществознание</option>
+                        <option value="math">ПрофМат</option>
+                        <option value="physics">Физика</option>
+                        <option value="literature">Литература</option>
+                    </select>
+                    <button onclick="loadScheduleForAdmin()">Загрузить расписание</button>
+                    <div id="scheduleAdminContainer" style="margin-top:16px;"></div>
+                </div>
+                <div class="items-list">
+                    <h3>📋 Все расписания</h3>
+                    <div id="scheduleList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- НАСТРОЙКИ -->
+        <div class="admin-tab-content" id="tab-settings">
+            <div class="admin-settings-grid">
+                <div class="settings-card">
+                    <h4>🖼️ Логотип сайта</h4>
+                    <input type="file" id="logoUpload" accept="image/*">
+                    <div id="logoPreview"></div>
+                    <button onclick="uploadLogo()">Загрузить логотип</button>
+                </div>
+                <div class="settings-card">
+                    <h4>🎨 Фон баннера</h4>
+                    <input type="file" id="bgUpload" accept="image/*">
+                    <div id="bgPreview"></div>
+                    <button onclick="uploadBackground()">Изменить фон</button>
+                </div>
+                <div class="settings-card">
+                    <h4>👤 Аватар пользователя</h4>
+                    <input type="file" id="avatarUpload" accept="image/*">
+                    <div id="avatarPreview"></div>
+                    <button onclick="uploadAvatar()">Изменить аватар</button>
+                </div>
+                <div class="settings-card">
+                    <h4>📊 Экспорт данных</h4>
+                    <button onclick="exportData()" style="width:100%;"><i class="fas fa-download"></i> Скачать JSON</button>
+                    <button onclick="document.getElementById('importInput').click()" style="width:100%; margin-top:8px; background:var(--gray);">
+                        <i class="fas fa-upload"></i> Импортировать JSON
+                    </button>
+                    <input type="file" id="importInput" accept=".json" style="display:none;" onchange="importData(event)">
+                </div>
+                <div class="settings-card">
+                    <h4>🗑️ Сбросить данные</h4>
+                    <button onclick="resetData()" style="width:100%; background:#ff4444;">
+                        <i class="fas fa-trash"></i> Сбросить все
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

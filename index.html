@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EKD — Онлайн-школа</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ===== ВЫДВИЖНАЯ ПАНЕЛЬ ===== -->
+<div class="slide-panel" id="slidePanel">
+    <div class="panel-trigger">
+        <i class="fas fa-chevron-right"></i>
+        <span>Меню</span>
+    </div>
+    <div class="panel-content">
+        <div class="panel-logo">
+            <img src="images/logo.png" alt="EKD" id="panelLogo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>'">
+        </div>
+        <nav class="panel-nav">
+            <a href="#" class="active" data-page="shop"><i class="fas fa-store"></i> Магазин</a>
+            <a href="#" data-page="home"><i class="fas fa-home"></i> Главная</a>
+            <a href="#" data-page="schedule" onclick="openSchedule()"><i class="fas fa-calendar"></i> Расписание</a>
+            <a href="#" data-page="lessons"><i class="fas fa-video"></i> Занятия</a>
+            <a href="#" data-page="homework"><i class="fas fa-book"></i> Домашние работы</a>
+            <a href="#" data-page="trainer"><i class="fas fa-dumbbell"></i> Тренажёр</a>
+            <a href="#" data-page="curator"><i class="fas fa-user-graduate"></i> Онлайн-куратор</a>
+            <a href="#" data-page="achievements"><i class="fas fa-trophy"></i> Достижения</a>
+            <a href="#" data-page="invite"><i class="fas fa-user-plus"></i> Пригласи друга</a>
+            <a href="#" data-page="subscriptions"><i class="fas fa-crown"></i> Подписки</a>
+        </nav>
+        <div class="panel-footer">
+            <div class="user-info" id="panelUserInfo">
+                <img src="images/default-avatar.png" alt="User" id="panelAvatar" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👤</text></svg>'">
+                <span id="panelUserName">Гость</span>
+            </div>
+            <button class="admin-access-btn" id="adminAccessBtn" onclick="checkAdminAccess()">
+                <i class="fas fa-cog"></i> Управление
+            </button>
+            <button class="logout-btn" id="logoutBtn" onclick="logout()" style="display:none;">
+                <i class="fas fa-sign-out-alt"></i> Выйти
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== ОСНОВНОЙ КОНТЕНТ ===== -->
+<div class="main-content">
+    <!-- ХЕДЕР -->
+    <header class="main-header">
+        <div class="header-left">
+            <div class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="header-logo">
+                <img src="images/logo.png" alt="EKD" id="headerLogo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>'">
+            </div>
+        </div>
+        <nav class="top-nav">
+            <div class="nav-exam-type">
+                <button class="exam-btn active" data-exam="all">Все</button>
+                <button class="exam-btn" data-exam="ege">ЕГЭ</button>
+                <button class="exam-btn" data-exam="oge">ОГЭ</button>
+            </div>
+            <div class="nav-subjects" id="navSubjects">
+                <button class="subject-btn active" data-subject="all">Все предметы</button>
+                <button class="subject-btn" data-subject="history">История</button>
+                <button class="subject-btn" data-subject="society">Обществознание</button>
+                <button class="subject-btn" data-subject="math">ПрофМат</button>
+                <button class="subject-btn" data-subject="physics">Физика</button>
+                <button class="subject-btn" data-subject="literature">Литература</button>
+            </div>
+        </nav>
+        <div class="header-right">
+            <span class="notification-bell"><i class="fas fa-bell"></i></span>
+            <div class="auth-buttons" id="authButtons">
+                <button class="login-top-btn" onclick="window.location.href='login.html'">Войти</button>
+            </div>
+            <div class="user-profile" id="userProfile" style="display:none;">
+                <img src="images/default-avatar.png" alt="User" id="headerUserAvatar" class="user-avatar" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%32 viewBox=%220 0 100 100%22><text y=%32.9em%32 font-size=%2290%32>👤</text></svg>'">
+                <span id="headerUserName">Гость</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- БАННЕР -->
+    <section class="hero-banner" id="heroBanner">
+            <div class="hero-content">
+            </div>
+        </div>
+    </section>
+
+    <!-- КУРСЫ -->
+    <section class="courses-section" id="coursesSection">
+        <div class="section-header">
+            <h2>НАШИ КУРСЫ</h2>
+        </div>
+        <div class="courses-grid" id="coursesGrid"></div>
+    </section>
+
+    <!-- ПОСТЫ РАЗНЫХ РАЗМЕРОВ -->
+    <section class="news-section">
+        <div class="section-header">
+            <h2>НОВОСТИ И АКЦИИ</h2>
+        </div>
+        <div class="news-grid" id="newsGrid"></div>
+    </section>
+
+    <!-- ПРЕПОДАВАТЕЛИ -->
+    <section class="teachers-section">
+        <div class="section-header">
+            <h2>НАШИ ПРЕПОДАВАТЕЛИ</h2>
+        </div>
+        <div class="teachers-grid" id="teachersGrid"></div>
+    </section>
+</div>
+
+<!-- ===== МОДАЛКА КУРСА ===== -->
+<div class="modal" id="courseModal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeCourseModal()">&times;</span>
+        <div id="modalCourseInfo"></div>
+    </div>
+</div>
+
+<!-- ===== МОДАЛКА РАСПИСАНИЯ ===== -->
+<div class="modal" id="scheduleModal">
+    <div class="modal-content schedule-modal-content">
+        <span class="close-modal" onclick="closeScheduleModal()">&times;</span>
+        <div id="scheduleContent"></div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
