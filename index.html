@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/ekd-shcool/">
     <title>EKD — Онлайн-школа</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -49,6 +50,7 @@
 
 <!-- ===== ОСНОВНОЙ КОНТЕНТ ===== -->
 <div class="main-content">
+
     <!-- ХЕДЕР -->
     <header class="main-header">
         <div class="header-left">
@@ -59,6 +61,7 @@
                 <img src="images/logo.png" alt="EKD" id="headerLogo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>'">
             </div>
         </div>
+
         <nav class="top-nav">
             <div class="nav-exam-type">
                 <button class="exam-btn active" data-exam="all">Все</button>
@@ -74,13 +77,14 @@
                 <button class="subject-btn" data-subject="literature">Литература</button>
             </div>
         </nav>
+
         <div class="header-right">
             <span class="notification-bell"><i class="fas fa-bell"></i></span>
             <div class="auth-buttons" id="authButtons">
                 <button class="login-top-btn" onclick="window.location.href='login.html'">Войти</button>
             </div>
             <div class="user-profile" id="userProfile" style="display:none;">
-                <img src="images/default-avatar.png" alt="User" id="headerUserAvatar" class="user-avatar" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%32 viewBox=%220 0 100 100%22><text y=%32.9em%32 font-size=%2290%32>👤</text></svg>'">
+                <img src="images/default-avatar.png" alt="User" id="headerUserAvatar" class="user-avatar" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👤</text></svg>'">
                 <span id="headerUserName">Гость</span>
             </div>
         </div>
@@ -88,7 +92,11 @@
 
     <!-- БАННЕР -->
     <section class="hero-banner" id="heroBanner">
+        <div class="hero-overlay">
             <div class="hero-content">
+                <h1>СДЕЛАЕМ ВСЕ <br><span class="highlight">РАДИ ВАШИХ БАЛЛОВ</span></h1>
+                <p>Подготовка к ЕГЭ и ОГЭ с лучшими преподавателями</p>
+                <button class="cta-btn" onclick="scrollToCourses()">Начать обучение</button>
             </div>
         </div>
     </section>
@@ -101,7 +109,7 @@
         <div class="courses-grid" id="coursesGrid"></div>
     </section>
 
-    <!-- ПОСТЫ РАЗНЫХ РАЗМЕРОВ -->
+    <!-- НОВОСТИ -->
     <section class="news-section">
         <div class="section-header">
             <h2>НОВОСТИ И АКЦИИ</h2>
@@ -116,9 +124,10 @@
         </div>
         <div class="teachers-grid" id="teachersGrid"></div>
     </section>
+
 </div>
 
-<!-- ===== МОДАЛКА КУРСА ===== -->
+<!-- ===== МОДАЛКИ ===== -->
 <div class="modal" id="courseModal">
     <div class="modal-content">
         <span class="close-modal" onclick="closeCourseModal()">&times;</span>
@@ -126,7 +135,6 @@
     </div>
 </div>
 
-<!-- ===== МОДАЛКА РАСПИСАНИЯ ===== -->
 <div class="modal" id="scheduleModal">
     <div class="modal-content schedule-modal-content">
         <span class="close-modal" onclick="closeScheduleModal()">&times;</span>
